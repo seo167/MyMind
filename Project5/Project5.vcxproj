@@ -115,20 +115,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameObjectFactory.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="PolyGon2D.cpp" />
-    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="MindWin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameObjectFactory.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="PolyGon2D.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Screen.h" />
+    <ClInclude Include="MindWin.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project5.rc" />

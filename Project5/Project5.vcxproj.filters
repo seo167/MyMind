@@ -21,16 +21,16 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectFactory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="MyMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PolyGon2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Screen.cpp">
+    <ClCompile Include="Graphics.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MindWin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,16 +41,22 @@
     <ClInclude Include="GameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectFactory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MyMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PolyGon2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Screen.h">
+    <ClInclude Include="Graphics.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MindWin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

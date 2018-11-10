@@ -155,3 +155,19 @@ const Matrix4X4& Matrix4X4::operator *(const float& num) {
 	}
 	return *this;
 }
+
+/*3X3矩阵*/
+void Matrix3X3::Transpose() {
+	//// 先定义一个4X4矩阵存放临时数据
+	Matrix3X3 temp(*m);
+
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			m[i][i] = temp.m[j][i];
+		}
+	}
+}
+
+void Matrix3X3::Norm() {
+
+}

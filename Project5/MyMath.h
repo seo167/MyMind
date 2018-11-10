@@ -96,3 +96,44 @@ struct Matrix4X4 {
 	const Matrix4X4& operator *(const float& num);
 	
 };
+
+struct Matrix3X3 {
+	float m[3][3];
+
+	//默认构造一个单位矩阵
+	Matrix3X3() {
+		m[0][0] = 1;
+		m[1][1] = 1;
+		m[2][2] = 1;
+
+		m[0][1] = m[0][2] = m[0][3] = m[1][0] = m[1][2] = m[1][3] = m[2][0] = m[2][1] = m[2][3]= 0;
+	}
+
+	Matrix3X3(const float *_m) {
+
+		if (_m==nullptr) {
+			return;
+		}
+
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				*(*(m + i) + j) = *(_m + j) + i;
+			}
+		}
+	}
+
+	//矩阵转置
+	void Transpose();
+
+	//设置单位矩阵
+	void Norm();
+
+	~Matrix3X3() {
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				*(*(m + i) + j)=NULL;
+			}
+		}
+		delete[] m;
+	}
+};
