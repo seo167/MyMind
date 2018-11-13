@@ -1,5 +1,8 @@
 #pragma once
 #include<cmath>
+#include<iostream>
+using namespace std;
+
 struct Vector2D {
 	float x, y;
 
@@ -59,24 +62,58 @@ struct Vector3D {
 	const Vector3D operator *(const float& num)const;
 	Vector3D &operator /=(const float& num);
 	const Vector3D operator /(const float& num)const;
+	const Vector3D& operator =(const Vector3D& vt3D);
 };
 
 inline const Vector3D& operator *(const float& _num, const Vector3D& vt3D) {
 	return Vector3D(_num*vt3D.x, _num*vt3D.y,_num*vt3D.z);
 }
 
+struct Vector4D {
+	Vector3D vt3;
+	float w;
+
+	Vector4D(){
+		w = 1;
+	}
+
+	//构造函数
+	Vector4D(float _x, float _y, float _z){
+		vt3.x = _x;
+		vt3.y = _y;
+		vt3.z = _z;
+		w = 1;
+	}
+
+	Vector4D(const Vector4D& _vt4) {
+		*this = _vt4;
+	}
+
+	Vector4D(const Vector3D& _vt3) {
+		vt3 = _vt3; w = 1;
+	}
+
+	const Vector4D operator -(const Vector4D& vt4D)const;
+	const Vector4D& operator -=(const Vector4D& vt4D);
+	const Vector4D operator +(const Vector4D& vt4D)const;
+	Vector4D &operator +=(const Vector4D& vt4D);
+	Vector4D &operator *=(const float& num);
+	const Vector4D operator *(const float& num)const;
+	Vector4D &operator /=(const float& num);
+	const Vector4D operator /(const float& num)const;
+	const Vector4D& operator =(const Vector4D& vt4D);
+};
+
+inline const Vector4D& operator *(const float& _num, const Vector4D& vt4D) {
+	return Vector4D(_num*vt4D.vt3.x, _num*vt4D.vt3.y, _num*vt4D.vt3.z);
+}
+
 struct Matrix4X4 {
 	float m[4][4];
 
-	//默认构造一个单位矩阵
+	//默认构造一个零矩阵
 	Matrix4X4() {
-		m[0][0] = 1;
-		m[1][1] = 1;
-		m[2][2] = 1;
-		m[3][3] = 1;
-
-		m[0][1] = m[0][2] = m[0][3] = m[1][0] = m[1][2] = m[1][3] = m[2][0] = m[2][1] = m[2][3]
-			= m[3][0] = m[3][1] = m[3][2] = 0;
+		memset(m,0,sizeof(float)*4*4);
 	}
 
 	Matrix4X4(const float *_m) {
@@ -93,20 +130,19 @@ struct Matrix4X4 {
 	//设置单位矩阵
 	void Norm();
 
-	const Matrix4X4& operator *(const float& num);
-	
+	const Matrix4X4& operator *=(const float& num);
 };
 
 struct Matrix3X3 {
 	float m[3][3];
 
-	//默认构造一个单位矩阵
+	//默认构造一个零矩阵
 	Matrix3X3() {
-		m[0][0] = 1;
-		m[1][1] = 1;
-		m[2][2] = 1;
+		memset(m,0,sizeof(float)*3*3);
+	}
 
-		m[0][1] = m[0][2] = m[0][3] = m[1][0] = m[1][2] = m[1][3] = m[2][0] = m[2][1] = m[2][3]= 0;
+	Matrix3X3(const Matrix3X3& mt3) {
+		*this = mt3;
 	}
 
 	Matrix3X3(const float *_m) {
@@ -127,6 +163,14 @@ struct Matrix3X3 {
 
 	//设置单位矩阵
 	void Norm();
+	const Matrix3X3 operator +(const Matrix3X3& mt3)const;
+	const Matrix3X3 operator -(const Matrix3X3& mt3)const;
+	const Matrix3X3 operator*(const Matrix3X3& mt3)const;
+	
+	const Matrix3X3& operator =(const Matrix3X3& mt3);
+	const Matrix3X3& operator +=(const Matrix3X3& mt3);
+	const Matrix3X3& operator -=(const Matrix3X3& mt3);
+	const Matrix3X3& operator*=(const Matrix3X3& mt3);
 
 	~Matrix3X3() {
 		for (int i = 0; i < 3; ++i) {
@@ -134,6 +178,8 @@ struct Matrix3X3 {
 				*(*(m + i) + j)=NULL;
 			}
 		}
-		delete[] m;
+	//	delete[] m;
 	}
 };
+
+const Matrix3X3 operator*(const float& num,const Matrix3X3& mt3);

@@ -121,6 +121,7 @@
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="PolyGon2D.cpp" />
     <ClCompile Include="MindWin.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
@@ -131,6 +132,7 @@
     <ClInclude Include="PolyGon2D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="MindWin.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project5.rc" />
