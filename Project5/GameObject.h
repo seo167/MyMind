@@ -24,7 +24,7 @@ public:
 	
 	//局部坐标转换世界坐标
 	void LocalToWorld();
-
+	void Move(const Vector3D& vt3d);
 	~GameObject();
 public:
 	string name;
@@ -43,13 +43,16 @@ protected:
 			vt3D.z = _z;
 			color = _color;
 		}
-
 	};
 
 	void SetObjectPixel2D(int x, int y, MColor color);
 
 	vector<Point> PixVector;//存储点,包括变换后的点
 	
+	unsigned int TriangleCount;//三角形个数
+
+	void DrawTriangle();
+
 protected:
 	void FillTopTriangle(Point p1,Point p2,Point p3,MColor color);//填充平顶三角形
 	void FillBottomTriangle(Point p1, Point p2, Point p3, MColor color);//填充平底三角形

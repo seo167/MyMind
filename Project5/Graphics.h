@@ -31,12 +31,22 @@ public:
 
 	static void DrawPoint(int x,int y,const MColor* color);
 
+	//绘画裁剪矩形
+	static void DrawClipRect();
+	
+	//对线段进行裁剪
+	static bool ClipLine(int &x0, int &y0, int &x1, int &y1);
+
 	~Graphics() {
 		DeleteObject(MindHdc);
 		DeleteObject(hCompatibleBitmap);
 		DeleteObject(pen);
 		DeleteObject(brush);
 	}
+private:
+	
+	//裁剪判断
+	static void Clip(int &IntersectX, int&IntersectY, const int& x0, const int& x1, const int& y0, const int& y1, const int &code);
 private:
 	static HDC MindHdc;//Mind设备
 	static HBITMAP hCompatibleBitmap;//兼容Bitmap
@@ -47,4 +57,17 @@ private:
 	static HPEN pen;
 	static HBRUSH brush;
 	static float* zBuffer;//深度缓存区
+	static int RectMaxX;//矩形X轴最大
+	static int RectMinX;//矩形X轴最小
+	static int RectMaxY;//矩形Y轴最大
+	static int RectMinY;//矩形Y轴最小
+
+	static int ClipLeftTop;//左上角边界编码
+	static int ClipRightTop;//右上角边界编码
+	static int ClipTop;//上方边界编码
+	static int ClipLeft;//左方边界编码
+	static int ClipRight;//右方边界编码
+	static int ClipLeftBottom;//左下角边界编码
+	static int ClipBottom;//下方边界编码
+	static int ClipRightBottom;//右下角边界编码
 };

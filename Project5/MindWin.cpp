@@ -1,6 +1,7 @@
 #include "MindWin.h"
 #include"MyMath.h"
 #include"PolyGon2D.h"
+PolyGon2D g(3, "SanJiaoXing", Vector4D(100, 0, 0));
 LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	float mouse_x, mouse_y;
 
@@ -8,6 +9,22 @@ LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM
 	case WM_LBUTTONDOWN:
 		mouse_x = (float)LOWORD(lparam);
 		mouse_y = (float)HIWORD(lparam);
+		break;
+	case WM_KEYDOWN:
+		switch (wparam) {
+			case VK_LEFT:
+					g.Move(Vector3D(-10, 0, 0));
+					break;
+			case VK_RIGHT:
+					g.Move(Vector3D(10, 0, 0));
+					break;
+			case VK_UP:
+					g.Move(Vector3D(0, -10, 0));
+					break;
+			case VK_DOWN:
+					g.Move(Vector3D(0, 10, 0));
+					break;
+		}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(WM_QUIT);
@@ -53,18 +70,17 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	WinDC = GetDC(hwnd);
 	MSG msg;
 	Graphics::Init();
-
-	PolyGon2D g(3, "SanJiaoXing",Vector4D(100,0,0));
-
+	Graphics::DrawClipRect();
+	
 	int m[3][2] = {
-		{50,50},
-		{0,100},
-		{100,100}
+		{ 50, 60 },
+		{ 130, 160 },
+		{ 230, 60 }
 	};
+
 
 	g.SetPoint(*m, MColor(255, 255, 255));
 	g.Draw();
-
 	Graphics::FillBuffer(WinDC);
 	
 	//srand(time(NULL));
@@ -79,12 +95,15 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 		Sleep(5000);*/
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
-		Graphics::ClearBuffer();
-		//g.LocalToWorld();
-		g.Draw();
-		Sleep(500);
-		Graphics::FillBuffer(WinDC);
 		
+		Graphics::ClearBuffer();
+		g.Draw();
+		Graphics::DrawClipRect();
+		//g.LocalToWorld();
+		
+	
+		Sleep(55);
+		Graphics::FillBuffer(WinDC);
 	}
 	
 	return;
