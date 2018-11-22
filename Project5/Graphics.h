@@ -28,6 +28,9 @@ public:
 	//绘制缓冲区
 	static void FillBuffer(HDC hdc);
 
+	//绘制点
+	static void DrawPoint(int x,int y,MColor _color);
+
 	static void DrawDDLine(int x0, int y0, int x1, int y1, const MColor* _color);
 	//采用Bresenham画线
 	static void DrawBresenhamLine(int x0, int y0, int x1, int y1, const MColor* _color);
@@ -43,8 +46,6 @@ public:
 	~Graphics() {
 		DeleteObject(MindHdc);
 		DeleteObject(hCompatibleBitmap);
-		DeleteObject(pen);
-		DeleteObject(brush);
 	}
 private:
 	
@@ -54,17 +55,12 @@ private:
 	static HDC MindHdc;//Mind设备
 	static HBITMAP hCompatibleBitmap;//兼容Bitmap
 	static DIBSECTION MindDIBSection;
-	static void* Data;//存储的数据
-	static int Pitch;//屏幕一行的总字节
-	static RECT rect;//规划一个矩形，充当屏幕坐标
-	static HPEN pen;
-	static HBRUSH brush;
 	static float* zBuffer;//深度缓存区
 	static int RectMaxX;//矩形X轴最大
 	static int RectMinX;//矩形X轴最小
 	static int RectMaxY;//矩形Y轴最大
 	static int RectMinY;//矩形Y轴最小
-
+	static MColor* FrameBuffer;//视频缓存
 	static int ClipLeftTop;//左上角边界编码
 	static int ClipRightTop;//右上角边界编码
 	static int ClipTop;//上方边界编码

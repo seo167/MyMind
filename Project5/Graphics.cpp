@@ -5,12 +5,8 @@ using namespace std;
 HDC Graphics::MindHdc;//Mind设备
 HBITMAP Graphics::hCompatibleBitmap;//Mind的帧缓存
 DIBSECTION Graphics::MindDIBSection;
-void* Graphics::Data;//存储的数据
-int Graphics::Pitch;//屏幕一行的总字节
-RECT Graphics::rect;//规划一个矩形，充当屏幕坐标
-HPEN Graphics::pen;
-HBRUSH Graphics::brush;
 float* Graphics::zBuffer;//深度缓存区
+MColor* Graphics::FrameBuffer;//视频缓存
 
 int Graphics::RectMaxX;
 int Graphics::RectMinX;//矩形X轴最小
@@ -29,7 +25,7 @@ int Graphics::ClipRightBottom = 0x0110;//右下角边界编码
 void Graphics::Init() {
 	//获取一个屏幕设备表,传NULL会获得和屏幕一样大的DC
 	MindHdc = CreateCompatibleDC(NULL);
-	
+	FrameBuffer = new MColor[WIDTH*HEIGHT * sizeof(MColor)];
 	BITMAPINFO bitInfo = {0};
 	bitInfo.bmiHeader.biSize = sizeof(bitInfo.bmiHeader);
 	bitInfo.bmiHeader.biBitCount = 32;
@@ -39,32 +35,10 @@ void Graphics::Init() {
 	bitInfo.bmiHeader.biHeight=HEIGHT;
 	bitInfo.bmiHeader.biSizeImage=WIDTH*HEIGHT*4;
 
-	//该指针主要用于接收位图位数
-	void* pBit = NULL;
 	//获取兼容HDC和兼容Bitmap,兼容Bitmap选入兼容HDC
-	hCompatibleBitmap =CreateDIBSection(MindHdc,&bitInfo,DIB_RGB_COLORS, &pBit,NULL,0);
+	hCompatibleBitmap =CreateDIBSection(MindHdc,&bitInfo,DIB_RGB_COLORS,(void**)&FrameBuffer,0,0);
 	//选择MaindBuffer来使用
 	SelectObject(MindHdc, hCompatibleBitmap);
-	
-	//将MindHdc写入到MindDIBSection
-	GetObject(MindHdc,sizeof(DIBSECTION),&MindDIBSection);
-
-	
-	Data = MindDIBSection.dsBm.bmBits;
-	Pitch = MindDIBSection.dsBm.bmWidthBytes;
-
-	//设置一个矩阵范围
-	SetRect(&rect,0,0,WIDTH,HEIGHT);
-
-	//创建笔和笔刷
-	pen = CreatePen(PS_SOLID,1,RGB(0,0,0));
-	//选择该画笔来使用
-	SelectObject(MindHdc, pen);
-
-	brush = CreateSolidBrush(RGB(0,0,0));
-	//选择该笔刷来使用
-	SelectObject(MindHdc, brush);
-	
 	//将深度缓存设置成0
 	zBuffer = new float[WIDTH*HEIGHT];
 	memset(zBuffer,0,(WIDTH*HEIGHT*sizeof(float)));
@@ -83,6 +57,12 @@ void Graphics::ClearZBuffer() {
 void Graphics::FillBuffer(HDC hdc) {
 	//将MindHdc所绘制的传入hdc入面
 	BitBlt(hdc, 0, 0, WIDTH, HEIGHT, MindHdc, 0, 0, SRCCOPY);
+}
+
+void Graphics::DrawPoint(int x, int y, MColor _color) {
+	if ((x>=0&&x<WIDTH)&&(y>=0&&y<HEIGHT)) {
+		FrameBuffer[x + y * WIDTH]=_color;
+	}
 }
 
 void Graphics::DrawDDLine(int x0, int y0, int x1, int y1, const MColor* _color) {
@@ -104,12 +84,12 @@ void Graphics::DrawDDLine(int x0, int y0, int x1, int y1, const MColor* _color) 
 	float x = x0;
 	float y = y0;
 
-	SetPixel(MindHdc, x, y, RGB(_color->r,_color->g,_color->b));
+	DrawPoint(x, y, MColor(_color->r,_color->g,_color->b));
 
 	for (int i = 0; i < Step; ++i) {
 		x += xInc;
 		y += yInc;
-		SetPixel(MindHdc, x, y, RGB(_color->r, _color->g, _color->b));
+		DrawPoint(x, y, MColor(_color->r, _color->g, _color->b));
 
 	}
 }
@@ -142,7 +122,7 @@ void Graphics::DrawBresenhamLine(int x0, int y0, int x1, int y1, const MColor* _
 			y = y0;
 		}
 
-		SetPixel(MindHdc, x, y, RGB(_color->r, _color->g, _color->b));
+		DrawPoint(x, y, MColor(_color->r, _color->g, _color->b));
 		while (x < x1) {
 			++x;
 			if (p0 < 0) {
@@ -152,7 +132,7 @@ void Graphics::DrawBresenhamLine(int x0, int y0, int x1, int y1, const MColor* _
 				y += Inc;
 				p0 += twoDyMinDx;
 			}
-			SetPixel(MindHdc, x, y, RGB(_color->r, _color->g, _color->b));
+			DrawPoint(x, y, MColor(_color->r, _color->g, _color->b));
 		}
 
 	}
@@ -170,7 +150,7 @@ void Graphics::DrawBresenhamLine(int x0, int y0, int x1, int y1, const MColor* _
 			x = x0;
 			y = y0;
 		}
-		SetPixel(MindHdc, x, y, RGB(_color->r, _color->g, _color->b));
+		DrawPoint(x, y, MColor(_color->r, _color->g, _color->b));
 		while (y < y1) {
 			++y;
 			if (p0 < 0) {
@@ -180,7 +160,7 @@ void Graphics::DrawBresenhamLine(int x0, int y0, int x1, int y1, const MColor* _
 				x += Inc;
 				p0 += twoDxMinDy;
 			}
-			SetPixel(MindHdc, x, y, RGB(_color->r, _color->g, _color->b));
+			DrawPoint(x, y, MColor(_color->r, _color->g, _color->b));
 		}
 
 	}
@@ -191,7 +171,7 @@ void Graphics::DrawPoint(int x, int y, const MColor* color) {
 }
 
 void Graphics::ClearBuffer() {
-	FillRect(MindHdc, &rect, brush);
+	memset(FrameBuffer, 0, sizeof(MColor)*WIDTH*HEIGHT);
 }
 
 void Graphics::DrawClipRect() {

@@ -20,10 +20,10 @@ LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM
 					g.transform.Move(Vector3D(10, 0, 0));
 					break;
 			case VK_UP:
-					g.transform.Move(Vector3D(0, -10, 0));
+					g.transform.Move(Vector3D(0, 10, 0));
 					break;
 			case VK_DOWN:
-					g.transform.Move(Vector3D(0, 10, 0));
+					g.transform.Move(Vector3D(0, -10, 0));
 					break;
 		}
 		break;
@@ -78,7 +78,7 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 
 
 	int m[3][2] = {
-		{ 50, 60 },
+		{ 0, 0 },
 		{ 130, 160 },
 		{ 230, 60 }
 	};
