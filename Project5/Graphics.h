@@ -4,6 +4,9 @@
 //ÑÕÉ«
 struct MColor {
 	unsigned char r, g, b, alpha;
+	MColor() {
+		r=g=b=alpha = 255;
+	}
 	MColor(int _r, int _g, int _b, int _alpha = 255) {
 		r = (unsigned char)((_r & 0xff0000 >> 16));
 		g = (unsigned char)((_g & 0x00ff00 >> 8));

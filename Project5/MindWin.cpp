@@ -1,6 +1,7 @@
 #include "MindWin.h"
 #include"MyMath.h"
 #include"PolyGon2D.h"
+#include"Camera.h"
 PolyGon2D g(3, "SanJiaoXing", Vector4D(100, 0, 0));
 LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	float mouse_x, mouse_y;
@@ -13,16 +14,16 @@ LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM
 	case WM_KEYDOWN:
 		switch (wparam) {
 			case VK_LEFT:
-					g.Move(Vector3D(-10, 0, 0));
+					g.transform.Move(Vector3D(-10, 0, 0));
 					break;
 			case VK_RIGHT:
-					g.Move(Vector3D(10, 0, 0));
+					g.transform.Move(Vector3D(10, 0, 0));
 					break;
 			case VK_UP:
-					g.Move(Vector3D(0, -10, 0));
+					g.transform.Move(Vector3D(0, -10, 0));
 					break;
 			case VK_DOWN:
-					g.Move(Vector3D(0, 10, 0));
+					g.transform.Move(Vector3D(0, 10, 0));
 					break;
 		}
 		break;
@@ -68,10 +69,14 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	WinDC = GetDC(hwnd);
+	Camera camera(900,600,90,1,500);
+	
 	MSG msg;
 	Graphics::Init();
-	Graphics::DrawClipRect();
+	//Graphics::DrawClipRect();
 	
+
+
 	int m[3][2] = {
 		{ 50, 60 },
 		{ 130, 160 },
@@ -80,6 +85,13 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 
 
 	g.SetPoint(*m, MColor(255, 255, 255));
+	camera.SetLookAt(&(g.transform.CameraMatrix),Vector3D(WIDTH / 2, HEIGHT / 2, -10), Vector3D(0, 0, 10), Vector3D(0, 0, 1));
+	camera.SetPerspective(&(g.transform.PerspectiveMatrix));
+	camera.SetView(&(g.transform.ViewMatrix));
+	g.transform.LocalToWorld();
+	g.transform.WorldToCamera();
+	g.transform.CameraToPerspective();
+	g.transform.PerspectiveToView();
 	g.Draw();
 	Graphics::FillBuffer(WinDC);
 	
@@ -98,8 +110,8 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 		
 		Graphics::ClearBuffer();
 		g.Draw();
-		Graphics::DrawClipRect();
-		//g.LocalToWorld();
+		//Graphics::DrawClipRect();
+		//g.transform.LocalToWorld();
 		
 	
 		Sleep(55);

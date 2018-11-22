@@ -5,27 +5,12 @@ GameObject::GameObject(string _name, const Vector4D& _worldPosition){
 	transform.Position = _worldPosition;
 }
 
-void GameObject::LocalToWorld() {
-	transform.LocalToWorld();
-	vector<Point>::iterator t= PixVector.begin();
-	for (; t != PixVector.end();++t) {
-		t->vt3D += transform.changePosition.vt3;
-	}
-}
-
-void  GameObject::Move(const Vector3D& vt3d) {
-	vector<Point>::iterator t = PixVector.begin();
-	for (; t != PixVector.end(); ++t) {
-		t->vt3D += vt3d;
-	}
-}
-
 void GameObject::SetObjectPixel2D(int x, int y, MColor color) {
 	int worldCenterX = WIDTH / 2;//世界坐标轴中心X轴
 	int worldCenterY = HEIGHT / 2;//世界坐标轴中心Y轴
 
 	Point p(color, x, y,0);
-	PixVector.push_back(p);
+	transform.AddPoint(p);
 }
 
 void GameObject::FillTopTriangle(Point p1, Point p2, Point p3, MColor color) {
@@ -102,12 +87,13 @@ void GameObject::FillBottomTriangle(Point p1, Point p2, Point p3, MColor color) 
 
 //画三角形
 void GameObject::DrawTriangle() {
-	vector<Point>::iterator temp1 = PixVector.begin();//x0，y0点
-	vector<Point>::iterator temp2 = PixVector.begin();//x1，y1点
+	vector<Point> t1 = transform.GetPointArray();
+	vector<Point>::iterator temp1 = t1.begin();//x0，y0点
+	vector<Point>::iterator temp2 = t1.begin();//x1，y1点
 	int x1, x2, y1, y2;
 	while (true) {
 		++temp2;
-		if (temp2 == PixVector.end()) {
+		if (temp2 == t1.end()) {
 			break;
 		}
 		x1 = temp1->vt3D.x;
@@ -120,7 +106,7 @@ void GameObject::DrawTriangle() {
 		
 		++temp1;
 	}
-	temp2 = PixVector.begin();
+	temp2 = t1.begin();
 	x1 = temp1->vt3D.x;
 	y1 = temp1->vt3D.y;
 	x2 = temp2->vt3D.x; 

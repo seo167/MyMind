@@ -133,7 +133,10 @@ const Vector3D& Vector3D::operator =(const Vector3D& vt3D) {
 }
 
 const Vector3D& Vector3D::Cross(const Vector3D& vt3D) {
-	return Vector3D(this->y*vt3D.z-this->z*vt3D.y,this->z*vt3D.x-this->x*vt3D.z,this->x*vt3D.y-this->y*vt3D.x);
+	int _x = this->y*vt3D.z - this->z*vt3D.y;
+	int _y = this->z*vt3D.x - this->x*vt3D.z;
+	int _z = this->x*vt3D.y - this->y*vt3D.x;
+	return Vector3D(_x,_y,_z);
 }
 
 /*4DÏòÁ¿*/
@@ -214,6 +217,28 @@ const Matrix4X4& Matrix4X4::operator *=(const float& num) {
 	return *this;
 }
 
+//4*4¾ØÕóÏà³Ë
+const Matrix4X4& Matrix4X4::operator *(const Matrix4X4& mt4) {
+	Matrix4X4 temp;
+	for (int i = 0; i < 4; ++i) {
+		for (int k = 0; k < 4; ++k) {
+			for (int j = 0; j < 4; ++j) {
+				float a = (m[i][j] * mt4.m[j][k]);
+				temp.m[i][k] += a;
+			}
+		}
+	}
+
+	return temp;
+}
+
+const Vector4D Matrix4X4::operator *(const Vector4D& mt4) {
+	Vector4D temp;
+	temp.vt3.x = (m[0][0]*mt4.vt3.x+m[0][1]*mt4.vt3.y+m[0][2]*mt4.vt3.z+m[0][3]*mt4.w + m[3][0]);
+	temp.vt3.y = (m[1][0] * mt4.vt3.x + m[1][1] * mt4.vt3.y + m[1][2] * mt4.vt3.z + m[1][3] * mt4.w + m[3][1]) ;
+	temp.vt3.z = (m[2][0] * mt4.vt3.x + m[2][1] * mt4.vt3.y + m[2][2] * mt4.vt3.z + m[2][3] * mt4.w + m[3][2]);
+	return temp;
+}
 
 /*3X3¾ØÕó*/
 void Matrix3X3::Transpose() {

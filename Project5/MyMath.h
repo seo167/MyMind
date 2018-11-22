@@ -86,7 +86,8 @@ struct Vector4D {
 	}
 
 	Vector4D(const Vector4D& _vt4) {
-		*this = _vt4;
+		this->vt3 = _vt4.vt3;
+		this->w = _vt4.w;
 	}
 
 	Vector4D(const Vector3D& _vt3) {
@@ -131,6 +132,8 @@ struct Matrix4X4 {
 	void Norm();
 
 	const Matrix4X4& operator *=(const float& num);
+	const Matrix4X4& operator *(const Matrix4X4& mt4);
+	const Vector4D operator *(const Vector4D& mt4);
 };
 
 struct Matrix3X3 {
