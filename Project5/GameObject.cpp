@@ -5,10 +5,12 @@ GameObject::GameObject(string _name){
 }
 
 void GameObject::SetObjectPixel2D(int x, int y, MColor color) {
-	int worldCenterX = WIDTH / 2;//世界坐标轴中心X轴
-	int worldCenterY = HEIGHT / 2;//世界坐标轴中心Y轴
+	Point p(color, x, y,0);
+	transform.AddPoint(p);
+}
 
-	Point p(color, x, y,1);
+void GameObject::SetObjectPixel3D(int x, int y,int z, MColor color) {
+	Point p(color, x, y, z);
 	transform.AddPoint(p);
 }
 

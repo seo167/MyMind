@@ -16,7 +16,12 @@ public:
 	}
 
 	//设置相机朝向(摄像机位置，目标位置，视距)
-	void SetLookAt(Matrix4X4 *cMat, Vector3D eye, Vector3D _target);
+	void SetLookAt(Vector3D eye, Vector3D _target);
+	//获取相机空间矩阵
+	void SetCameraMatrix(Matrix4X4 *cMat) {
+		//计算相机变换矩阵
+		*cMat = tMat * rMat;
+	}
 
 	//设置投影坐标
 	void SetPerspective(Matrix4X4 *PerspectiveMat);

@@ -116,22 +116,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="PolyGon2D.cpp" />
     <ClCompile Include="MindWin.cpp" />
+    <ClCompile Include="PolyGon3D.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="PolyGon2D.h" />
+    <ClInclude Include="PolyGon3D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="MindWin.h" />
     <ClInclude Include="Transform.h" />

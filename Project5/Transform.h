@@ -11,7 +11,7 @@ using namespace std;
 点位置
 */
 struct Point {
-	Vector3D vt3D;
+	Vector4D vt3D;
 	MColor color;
 	Point() {}
 
@@ -19,6 +19,7 @@ struct Point {
 		vt3D.x = _x;
 		vt3D.y = _y;
 		vt3D.z = _z;
+		vt3D.w=1;
 		color = _color;
 	}
 };
@@ -28,6 +29,7 @@ class Transform
 private:
 	vector<Point> PointArray;
 	vector<Vector4D> ChangePositionArray;//转换后坐标的数组
+	Matrix4X4 RotateYMatrix;//Y轴旋转矩阵
 public:
 	Matrix4X4 WorldMatrix;//世界坐标
 	Vector4D localPosition;//局部坐标
@@ -46,11 +48,15 @@ public:
 		return PointArray;
 	}
 
-	void Rotate2D(const Vector2D& vct);//2D旋转
+	void RotateX(float Angle);//Y轴旋转
+	void RotateY(float Angle);//Y轴旋转
+	void RotateZ(float Angle);//Y轴旋转
 	void LocalToWorld();
 	void WorldToCamera();
 	void CameraToPerspective();//透视转换
 	void PerspectiveToView();//屏幕转换
 	void Move(const Vector3D& vt3d);
+private:
+	void Rotate(const Matrix4X4& tempR);
 };
 

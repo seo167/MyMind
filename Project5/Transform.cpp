@@ -4,16 +4,57 @@ Transform::Transform(){
 	WorldMatrix.Identity();
 }
 
-void Transform::Rotate2D(const Vector2D& vct) {
+void Transform::Rotate(const Matrix4X4& tempR) {
+	vector<Point>::iterator temp = PointArray.begin();//获取第一个点
+	for (int i = 0; temp != PointArray.end(); ++temp, ++i) {
+		Vector4D t(ChangePositionArray[i]);//获取初始的点
+		t = t * tempR;
+		temp->vt3D.x = t.x;
+		temp->vt3D.y = t.y;
+		temp->vt3D.z = t.z;
+	}
+}
+
+void Transform::RotateX(float Angle) {
+	Matrix4X4 tempR;//临时旋转矩阵
+	tempR.Identity();
+	tempR.m[1][1] = cos(Angle);
+	tempR.m[1][2] = -sin(Angle);
+	tempR.m[2][1] = sin(Angle);
+	tempR.m[2][2] = cos(Angle);
+
+	Rotate(tempR);
+
+}
+
+void Transform::RotateY(float Angle){
+	Matrix4X4 tempR;//临时旋转矩阵
+	tempR.Identity();
+	tempR.m[0][0] = cos(Angle);
+	tempR.m[0][2] = -sin(Angle);
+	tempR.m[2][0] = sin(Angle);
+	tempR.m[2][2] = cos(Angle);
 	
+	Rotate(tempR);
+}
+
+void Transform::RotateZ(float Angle) {
+	Matrix4X4 tempR;//临时旋转矩阵
+	tempR.Identity();
+	tempR.m[0][0] = cos(Angle);
+	tempR.m[0][1] = -sin(Angle);
+	tempR.m[1][0] = sin(Angle);
+	tempR.m[1][1] = cos(Angle);
+
+	Rotate(tempR);
 }
 
 void Transform::LocalToWorld() {
 	//加入第一个变换后的位置，局部转换世界坐标
-	//ChangePositionArray.push_back((Position+localPosition));
 	vector<Point>::iterator temp = PointArray.begin();//获取第一个点
 	for (; temp != PointArray.end();++temp) {
 		Vector4D t(temp->vt3D);
+		ChangePositionArray.push_back(temp->vt3D);//保存最初始的点
 		t = t * WorldMatrix;
 		temp->vt3D.x = t.x;
 		temp->vt3D.y = t.y;

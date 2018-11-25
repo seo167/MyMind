@@ -18,17 +18,13 @@ public:
 	~GameObject();
 public:
 	string name;
-	
 	Transform transform;
+	virtual void Draw() = 0;
 protected:
-	
 	void SetObjectPixel2D(int x, int y, MColor color);
-	
+	void SetObjectPixel3D(int x,int y,int z,MColor color);
 	unsigned int TriangleCount;//三角形个数
-
 	void DrawTriangle();
-
-protected:
 	void FillTopTriangle(Point p1,Point p2,Point p3,MColor color);//填充平顶三角形
 	void FillBottomTriangle(Point p1, Point p2, Point p3, MColor color);//填充平底三角形
 

@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-void Camera::SetLookAt(Matrix4X4 *cMat, Vector3D eye, Vector3D _target) {
+void Camera::SetLookAt(Vector3D eye, Vector3D _target) {
 	target = _target;;
 	n = _target - eye;
 	v = Vector3D(0, 1, 0);
@@ -14,8 +14,7 @@ void Camera::SetLookAt(Matrix4X4 *cMat, Vector3D eye, Vector3D _target) {
 
 	InitTMat();
 	InitRMat();
-	//计算相机变换矩阵
-	*cMat = tMat * rMat;
+	
 }
 
 void Camera::SetPerspective(Matrix4X4 *PerspectiveMat) {

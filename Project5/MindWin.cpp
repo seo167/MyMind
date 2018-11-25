@@ -1,8 +1,10 @@
 #include "MindWin.h"
 #include"MyMath.h"
 #include"PolyGon2D.h"
+#include"PolyGon3D.h"
 #include"Camera.h"
-PolyGon2D g(3, "SanJiaoXing");
+float angle = 0;
+PolyGon3D g(3, "SanJiaoXing");
 LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	float mouse_x, mouse_y;
 
@@ -83,9 +85,23 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 		{-10,-10,1}
 	};
 
+	int m1[3][3] = {
+		{ 50, 10 ,1},
+		{50,-10,1},
+		{60,-10,1}
+	};
 
+	int m2[3][3] = {
+		{ -50, 10 ,1},
+		{-50,-10,1},
+		{-60,-10,1}
+	};
+
+	PolyGon3D g1(3, "SanJiaoXing1");
+	PolyGon3D g2(3, "SanJiaoXing2");
 	g.SetPoint(*m, MColor(255, 255, 255));
-	camera.SetLookAt(&(g.transform.CameraMatrix),Vector3D(0,0,-100), Vector3D(0, 0, 0));
+	camera.SetLookAt(Vector3D(0,0,-100), Vector3D(0, 0, 0));
+	camera.SetCameraMatrix(&(g.transform.CameraMatrix));
 	camera.SetPerspective(&(g.transform.PerspectiveMatrix));
 	camera.SetView(&(g.transform.ViewMatrix));
 	g.transform.LocalToWorld();
@@ -93,29 +109,73 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	g.transform.CameraToPerspective();
 	g.transform.PerspectiveToView();
 	g.Draw();
+
+	g1.SetPoint(*m1, MColor(255, 255, 255));
+	camera.SetCameraMatrix(&(g1.transform.CameraMatrix));
+	camera.SetPerspective(&(g1.transform.PerspectiveMatrix));
+	camera.SetView(&(g1.transform.ViewMatrix));
+	g1.transform.LocalToWorld();
+	g1.transform.WorldToCamera();
+	g1.transform.CameraToPerspective();
+	g1.transform.PerspectiveToView();
+	g1.Draw();
+
+	g2.SetPoint(*m2, MColor(255, 255, 255));
+	camera.SetCameraMatrix(&(g2.transform.CameraMatrix));
+	camera.SetPerspective(&(g2.transform.PerspectiveMatrix));
+	camera.SetView(&(g2.transform.ViewMatrix));
+	g2.transform.LocalToWorld();
+	g2.transform.WorldToCamera();
+	g2.transform.CameraToPerspective();
+	g2.transform.PerspectiveToView();
+	g2.Draw();
+
 	Graphics::FillBuffer(WinDC);
 	
 	//srand(time(NULL));
-	while (GetMessage(&msg,NULL,0,0)) {
-		/*if (PeekMessage(&msg,NULL,0,0,0)) {
+	while (1) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if (msg.message == WM_QUIT)
+				break;
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else {
-			
-		}
-		Sleep(5000);*/
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-		
 		Graphics::ClearBuffer();
+
+		if ((angle+=0.01) >= 360) { angle = 0; }
+		g.transform.RotateX(angle);
+
+		g.transform.LocalToWorld();
+		g.transform.WorldToCamera();
+		g.transform.CameraToPerspective();
+		g.transform.PerspectiveToView();
+
+		g1.transform.RotateX(angle);
+
+		g1.transform.LocalToWorld();
+		g1.transform.WorldToCamera();
+		g1.transform.CameraToPerspective();
+		g1.transform.PerspectiveToView();
+
+		g2.transform.RotateX(angle);
+
+		g2.transform.LocalToWorld();
+		g2.transform.WorldToCamera();
+		g2.transform.CameraToPerspective();
+		g2.transform.PerspectiveToView();
+
+
+		g1.Draw();
+		g2.Draw();
 		g.Draw();
 		//Graphics::DrawClipRect();
 		//g.transform.LocalToWorld();
-		
-	
-		Sleep(55);
+
 		Graphics::FillBuffer(WinDC);
+		
+		
+		
+
 	}
 	
 	return;
