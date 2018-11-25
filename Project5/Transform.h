@@ -29,7 +29,7 @@ private:
 	vector<Point> PointArray;
 	vector<Vector4D> ChangePositionArray;//转换后坐标的数组
 public:
-	Vector4D Position;//世界坐标
+	Matrix4X4 WorldMatrix;//世界坐标
 	Vector4D localPosition;//局部坐标
 	Matrix4X4 CameraMatrix;//相机空间
 	Matrix4X4 PerspectiveMatrix;//投影矩阵

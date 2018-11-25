@@ -60,7 +60,7 @@ void Graphics::FillBuffer(HDC hdc) {
 }
 
 void Graphics::DrawPoint(int x, int y, MColor _color) {
-	if ((x>=0&&x<WIDTH)&&(y>=0&&y<HEIGHT)) {
+	if ((x<WIDTH)&&(y<HEIGHT)) {
 		FrameBuffer[x + y * WIDTH]=_color;
 	}
 }

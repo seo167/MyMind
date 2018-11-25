@@ -14,7 +14,7 @@
 class GameObject
 {
 public:
-	GameObject(string _name,const Vector4D& _worldPosition);
+	GameObject(string _name);
 	~GameObject();
 public:
 	string name;

@@ -6,8 +6,9 @@ void PolyGon2D::SetPoint(const int * const point,MColor color) {
 	while (num<PointNum) {
 		int x=(*(temp + 0));
 		int y= (*(temp + 1));
+		int z = (*(temp + 2));
 		SetObjectPixel2D(x,y,color);
-		temp += 2;
+		temp += 3;
 		++num;
 	}
 	temp = nullptr;

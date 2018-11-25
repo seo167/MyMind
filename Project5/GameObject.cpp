@@ -1,15 +1,14 @@
 #include "GameObject.h"
 
-GameObject::GameObject(string _name, const Vector4D& _worldPosition){
+GameObject::GameObject(string _name){
 	name = _name;
-	transform.Position = _worldPosition;
 }
 
 void GameObject::SetObjectPixel2D(int x, int y, MColor color) {
 	int worldCenterX = WIDTH / 2;//世界坐标轴中心X轴
 	int worldCenterY = HEIGHT / 2;//世界坐标轴中心Y轴
 
-	Point p(color, x, y,0);
+	Point p(color, x, y,1);
 	transform.AddPoint(p);
 }
 

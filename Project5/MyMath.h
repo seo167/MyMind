@@ -3,6 +3,8 @@
 #include<iostream>
 using namespace std;
 
+struct Matrix4X4;
+
 struct Vector2D {
 	float x, y;
 
@@ -52,7 +54,7 @@ struct Vector3D {
 	const float Dot(const Vector3D& vt3D);
 
 	//叉乘
-	const Vector3D& Cross(const Vector3D& vt3D);
+	const Vector3D Cross(const Vector3D& vt3D);
 
 	const Vector3D operator -(const Vector3D& vt3D)const;
 	Vector3D operator -=(const Vector3D& vt3D);
@@ -70,8 +72,7 @@ inline const Vector3D& operator *(const float& _num, const Vector3D& vt3D) {
 }
 
 struct Vector4D {
-	Vector3D vt3;
-	float w;
+	float x,y,z,w;
 
 	Vector4D(){
 		w = 1;
@@ -79,19 +80,24 @@ struct Vector4D {
 
 	//构造函数
 	Vector4D(float _x, float _y, float _z){
-		vt3.x = _x;
-		vt3.y = _y;
-		vt3.z = _z;
+		x = _x;
+		y = _y;
+		z = _z;
 		w = 1;
 	}
 
 	Vector4D(const Vector4D& _vt4) {
-		this->vt3 = _vt4.vt3;
+		this->x = _vt4.x;
+		this->y = _vt4.y;
+		this->z = _vt4.z;
 		this->w = _vt4.w;
 	}
 
 	Vector4D(const Vector3D& _vt3) {
-		vt3 = _vt3; w = 1;
+		this->x = _vt3.x;
+		this->y = _vt3.y;
+		this->z = _vt3.z;
+		w = 1;
 	}
 
 	const Vector4D operator -(const Vector4D& vt4D)const;
@@ -103,10 +109,16 @@ struct Vector4D {
 	Vector4D &operator /=(const float& num);
 	const Vector4D operator /(const float& num)const;
 	const Vector4D& operator =(const Vector4D& vt4D);
+	Vector4D operator *(const Matrix4X4& vt4D);
+
+	inline float dot(const Vector3D& vt3D) {
+		return x * vt3D.x + y * vt3D.y + z * vt3D.z;
+	}
+
 };
 
-inline const Vector4D& operator *(const float& _num, const Vector4D& vt4D) {
-	return Vector4D(_num*vt4D.vt3.x, _num*vt4D.vt3.y, _num*vt4D.vt3.z);
+inline const Vector4D operator *(const float& _num, const Vector4D& vt4D) {
+	return Vector4D(_num*vt4D.x, _num*vt4D.y, _num*vt4D.z);
 }
 
 struct Matrix4X4 {
@@ -129,10 +141,10 @@ struct Matrix4X4 {
 	void Transpose();
 
 	//设置单位矩阵
-	void Norm();
+	void Identity();
 
 	const Matrix4X4& operator *=(const float& num);
-	const Matrix4X4& operator *(const Matrix4X4& mt4);
+	const Matrix4X4 operator *(const Matrix4X4& mt4);
 	const Vector4D operator *(const Vector4D& mt4);
 };
 

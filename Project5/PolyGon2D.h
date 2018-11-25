@@ -9,7 +9,7 @@
 class PolyGon2D:public GameObject
 {
 public:
-	PolyGon2D(int _PointNum,string _name,const Vector4D& vt4) :GameObject( _name, vt4), PointNum(_PointNum){}
+	PolyGon2D(int _PointNum,string _name) :GameObject( _name), PointNum(_PointNum){}
 	
 	void SetPoint(const int * const point, MColor color);
 	

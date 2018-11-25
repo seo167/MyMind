@@ -2,7 +2,7 @@
 #include"MyMath.h"
 #include"PolyGon2D.h"
 #include"Camera.h"
-PolyGon2D g(3, "SanJiaoXing", Vector4D(100, 0, 0));
+PolyGon2D g(3, "SanJiaoXing");
 LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	float mouse_x, mouse_y;
 
@@ -14,16 +14,16 @@ LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM
 	case WM_KEYDOWN:
 		switch (wparam) {
 			case VK_LEFT:
-					g.transform.Move(Vector3D(-10, 0, 0));
+					g.transform.Move(Vector3D(-50, 0, 0));
 					break;
 			case VK_RIGHT:
-					g.transform.Move(Vector3D(10, 0, 0));
+					g.transform.Move(Vector3D(50, 0, 0));
 					break;
 			case VK_UP:
-					g.transform.Move(Vector3D(0, 10, 0));
+					g.transform.Move(Vector3D(0, 50, 0));
 					break;
 			case VK_DOWN:
-					g.transform.Move(Vector3D(0, -10, 0));
+					g.transform.Move(Vector3D(0, -50, 0));
 					break;
 		}
 		break;
@@ -69,7 +69,7 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	WinDC = GetDC(hwnd);
-	Camera camera(900,600,90,1,500);
+	Camera camera(90,50,500);
 	
 	MSG msg;
 	Graphics::Init();
@@ -77,15 +77,15 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	
 
 
-	int m[3][2] = {
-		{ 0, 0 },
-		{ 130, 160 },
-		{ 230, 60 }
+	int m[3][3] = {
+		{ 0, 10 ,1},
+		{10,-10,1},
+		{-10,-10,1}
 	};
 
 
 	g.SetPoint(*m, MColor(255, 255, 255));
-	camera.SetLookAt(&(g.transform.CameraMatrix),Vector3D(WIDTH / 2, HEIGHT / 2, -10), Vector3D(0, 0, 10), Vector3D(0, 0, 1));
+	camera.SetLookAt(&(g.transform.CameraMatrix),Vector3D(0,0,-100), Vector3D(0, 0, 0));
 	camera.SetPerspective(&(g.transform.PerspectiveMatrix));
 	camera.SetView(&(g.transform.ViewMatrix));
 	g.transform.LocalToWorld();
