@@ -2,29 +2,36 @@
 //*******************
 //正方形类,8个点会按顺序进行输入
 //*******************
-#include "PolyGon3D.h"
-class Cube :public PolyGon3D
+#include "Plane.h"
+#include"Camera.h"
+class Cube
 {
 public:
-	Cube(const int* m, string _name) :PolyGon3D(24, _name) {
-		SetPoint(m,MColor(255,255,255));
+	Cube(Camera *_cam,string _name){
+		planeArray.push_back(Plane("Plane1"));
+		planeArray.push_back(Plane("Plane2"));
+		planeArray.push_back(Plane("Plane3"));
+		planeArray.push_back(Plane("Plane4"));
+		planeArray.push_back(Plane("Plane5"));
+		planeArray.push_back(Plane("Plane6"));
+		camera = _cam;
+		for (int i = 0; i < 6; ++i) {
+			camera->SetCameraMatrix(&(planeArray[i].transform.CameraMatrix));
+			camera->SetPerspective(&(planeArray[i].transform.PerspectiveMatrix));
+			camera->SetView(&(planeArray[i].transform.ViewMatrix));
+		}
+		
+		InitCube();
 	}
-
+	void Change();//转换
 	void Draw();
-
+	void RotateY(float Angle);
 	~Cube();
 private:
-	int CubePoint[10][3] = {
-		{0,1,2},
-		{0,2,3},
-		{3,6,4},
-		{3,0,4},
-		{6,7,4},
-		{4,5,7},
-		{5,1,2},
-		{5,7,2},
-		{7,2,3},
-		{7,6,3}
-	};
+	void InitCube();
+private:
+	vector<Plane> planeArray;
+	Camera *camera;
+	
 };
 

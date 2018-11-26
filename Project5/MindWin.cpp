@@ -3,6 +3,7 @@
 #include"PolyGon2D.h"
 #include"PolyGon3D.h"
 #include"Camera.h"
+#include"Cube.h"
 float angle = 0;
 PolyGon3D g(3, "SanJiaoXing");
 LRESULT CALLBACK MindWin::WindowProc(HWND _hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -99,16 +100,16 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 
 	PolyGon3D g1(3, "SanJiaoXing1");
 	PolyGon3D g2(3, "SanJiaoXing2");
-	g.SetPoint(*m, MColor(255, 255, 255));
+	//g.SetPoint(*m, MColor(255, 255, 255));
 	camera.SetLookAt(Vector3D(0,0,-100), Vector3D(0, 0, 0));
-	camera.SetCameraMatrix(&(g.transform.CameraMatrix));
+	/*camera.SetCameraMatrix(&(g.transform.CameraMatrix));
 	camera.SetPerspective(&(g.transform.PerspectiveMatrix));
 	camera.SetView(&(g.transform.ViewMatrix));
 	g.transform.LocalToWorld();
 	g.transform.WorldToCamera();
 	g.transform.CameraToPerspective();
 	g.transform.PerspectiveToView();
-	g.Draw();
+	g.Draw();*/
 
 	g1.SetPoint(*m1, MColor(255, 255, 255));
 	camera.SetCameraMatrix(&(g1.transform.CameraMatrix));
@@ -130,6 +131,9 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	g2.transform.PerspectiveToView();
 	g2.Draw();
 
+	Cube c(&camera,"Cube1");
+	c.Change();
+	c.Draw();
 	Graphics::FillBuffer(WinDC);
 	
 	//srand(time(NULL));
@@ -143,31 +147,34 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 		Graphics::ClearBuffer();
 
 		if ((angle+=0.01) >= 360) { angle = 0; }
-		g.transform.RotateX(angle);
+		/*g.transform.RotateX(angle);
 
 		g.transform.LocalToWorld();
 		g.transform.WorldToCamera();
 		g.transform.CameraToPerspective();
-		g.transform.PerspectiveToView();
+		g.transform.PerspectiveToView();*/
 
-		g1.transform.RotateX(angle);
+		//g1.transform.RotateX(angle);
 
-		g1.transform.LocalToWorld();
-		g1.transform.WorldToCamera();
-		g1.transform.CameraToPerspective();
-		g1.transform.PerspectiveToView();
+		//g1.transform.LocalToWorld();
+		//g1.transform.WorldToCamera();
+		//g1.transform.CameraToPerspective();
+		//g1.transform.PerspectiveToView();
 
-		g2.transform.RotateX(angle);
+		//g2.transform.RotateX(angle);
 
-		g2.transform.LocalToWorld();
-		g2.transform.WorldToCamera();
-		g2.transform.CameraToPerspective();
-		g2.transform.PerspectiveToView();
+		//g2.transform.LocalToWorld();
+		//g2.transform.WorldToCamera();
+		//g2.transform.CameraToPerspective();
+		//g2.transform.PerspectiveToView();
 
 
-		g1.Draw();
-		g2.Draw();
-		g.Draw();
+		//g1.Draw();
+		//g2.Draw();
+		//g.Draw();
+		c.RotateY(angle);
+		c.Change();
+		c.Draw();
 		//Graphics::DrawClipRect();
 		//g.transform.LocalToWorld();
 

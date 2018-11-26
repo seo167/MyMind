@@ -121,6 +121,7 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyMath.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PolyGon2D.cpp" />
     <ClCompile Include="MindWin.cpp" />
     <ClCompile Include="PolyGon3D.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="MyMath.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="PolyGon2D.h" />
     <ClInclude Include="PolyGon3D.h" />
     <ClInclude Include="resource.h" />
