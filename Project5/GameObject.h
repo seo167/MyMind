@@ -10,6 +10,10 @@
 #include<string>
 #include"Transform.h"
 
+enum class CULLSTATE {
+	DEFAULT=0,//ÎÞÐè²Ã¼ô
+	CULLBACK//²Ã¼ô±³Ãæ
+};
 
 class GameObject
 {
@@ -19,6 +23,7 @@ public:
 public:
 	string name;
 	Transform transform;
+	CULLSTATE CullState = CULLSTATE::DEFAULT;//²Ã¼ô×´Ì¬
 	virtual void Draw() = 0;
 protected:
 	void SetObjectPixel2D(int x, int y, MColor color);
@@ -27,6 +32,6 @@ protected:
 	void DrawTriangle();
 	void FillTopTriangle(Point p1,Point p2,Point p3,MColor color);//Ìî³äÆ½¶¥Èý½ÇÐÎ
 	void FillBottomTriangle(Point p1, Point p2, Point p3, MColor color);//Ìî³äÆ½µ×Èý½ÇÐÎ
-
+	
 };
 

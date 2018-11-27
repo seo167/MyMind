@@ -131,8 +131,8 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 	g2.transform.PerspectiveToView();
 	g2.Draw();
 
-	Cube c(&camera,"Cube1");
-	c.Change();
+	Cube c(&camera,"Cube1",true);
+	c.Conversion();
 	c.Draw();
 	Graphics::FillBuffer(WinDC);
 	
@@ -154,35 +154,31 @@ void MindWin::Init(HINSTANCE _hinstance, HINSTANCE hprev, LPSTR lpcmdline, int n
 		g.transform.CameraToPerspective();
 		g.transform.PerspectiveToView();*/
 
-		//g1.transform.RotateX(angle);
+		g1.transform.RotateY(angle);
 
-		//g1.transform.LocalToWorld();
-		//g1.transform.WorldToCamera();
-		//g1.transform.CameraToPerspective();
-		//g1.transform.PerspectiveToView();
+		g1.transform.LocalToWorld();
+		g1.transform.WorldToCamera();
+		g1.transform.CameraToPerspective();
+		g1.transform.PerspectiveToView();
 
-		//g2.transform.RotateX(angle);
+		g2.transform.RotateY(angle);
 
-		//g2.transform.LocalToWorld();
-		//g2.transform.WorldToCamera();
-		//g2.transform.CameraToPerspective();
-		//g2.transform.PerspectiveToView();
+		g2.transform.LocalToWorld();
+		g2.transform.WorldToCamera();
+		g2.transform.CameraToPerspective();
+		g2.transform.PerspectiveToView();
 
 
-		//g1.Draw();
-		//g2.Draw();
+		g1.Draw();
+		g2.Draw();
 		//g.Draw();
 		c.RotateY(angle);
-		c.Change();
 		c.Draw();
 		//Graphics::DrawClipRect();
 		//g.transform.LocalToWorld();
-
+		
 		Graphics::FillBuffer(WinDC);
-		
-		
-		
-
+		//c.ReSetCullState();
 	}
 	
 	return;

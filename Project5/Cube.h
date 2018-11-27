@@ -7,31 +7,25 @@
 class Cube
 {
 public:
-	Cube(Camera *_cam,string _name){
-		planeArray.push_back(Plane("Plane1"));
-		planeArray.push_back(Plane("Plane2"));
-		planeArray.push_back(Plane("Plane3"));
-		planeArray.push_back(Plane("Plane4"));
-		planeArray.push_back(Plane("Plane5"));
-		planeArray.push_back(Plane("Plane6"));
+	Cube(Camera *_cam,string _name, bool _isCull=true):isCull(_isCull){
 		camera = _cam;
-		for (int i = 0; i < 6; ++i) {
-			camera->SetCameraMatrix(&(planeArray[i].transform.CameraMatrix));
-			camera->SetPerspective(&(planeArray[i].transform.PerspectiveMatrix));
-			camera->SetView(&(planeArray[i].transform.ViewMatrix));
-		}
-		
 		InitCube();
 	}
-	void Change();//×ª»»
+	void Conversion();//×ª»»
 	void Draw();
 	void RotateY(float Angle);
+	inline void ReSetCullState() {
+		for (int i = 0; i < 2;++i) {
+			planeArray[i].ReSetState();
+		}
+	}
 	~Cube();
 private:
 	void InitCube();
 private:
 	vector<Plane> planeArray;
 	Camera *camera;
+	bool isCull;//ÅÐ¶ÏÊÇ·ñ¿ªÆô²Ã¼ô
 	
 };
 

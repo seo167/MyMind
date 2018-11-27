@@ -101,10 +101,10 @@ void GameObject::DrawTriangle() {
 		y1 = temp1->vt3D.y;
 		x2 = temp2->vt3D.x; 
 		y2 = temp2->vt3D.y;
-		if (Graphics::ClipLine(x1, y1, x2, y2)) {
-			Graphics::DrawBresenhamLine(x1, y1, x2, y2, &(temp1->color));
-		}
-		
+		//if (Graphics::ClipLine(x1, y1, x2, y2)) {
+		//	Graphics::DrawBresenhamLine(x1, y1, x2, y2, &(temp1->color));
+		//}
+		Graphics::DrawBresenhamLine(x1, y1, x2, y2, &(temp1->color));
 		++temp1;
 	}
 	temp2 = t1.begin();

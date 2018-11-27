@@ -4,6 +4,8 @@
 class Camera
 {
 public:
+	Vector4D pos;//相机位置
+public:
 	//角度，近裁剪，远裁剪
 	Camera(float _fov,float _near_z, float _far_z) : 
 		fov(_fov),near_z(_near_z), far_z(_far_z) {
@@ -49,7 +51,7 @@ private:
 	Vector3D u, v, n;//摄像机三个方向
 	float fov;//水平视野和垂直视野的角度
 	float near_z, far_z;//远，近裁剪面
-	Vector4D pos;//相机位置
+	
 	Matrix4X4 tMat;//平移矩阵
 	Matrix4X4 rMat;//旋转矩阵
 	int Width;//投影宽

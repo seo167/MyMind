@@ -111,8 +111,15 @@ struct Vector4D {
 	const Vector4D& operator =(const Vector4D& vt4D);
 	Vector4D operator *(const Matrix4X4& vt4D);
 
-	inline float dot(const Vector3D& vt3D) {
+	inline float dot(const Vector4D& vt3D) {
 		return x * vt3D.x + y * vt3D.y + z * vt3D.z;
+	}
+
+	inline Vector4D Cross(const Vector4D& vt4D) {
+		int _x = this->y*vt4D.z - this->z*vt4D.y;
+		int _y = this->z*vt4D.x - this->x*vt4D.z;
+		int _z = this->x*vt4D.y - this->y*vt4D.x;
+		return Vector4D(_x,_y,_z);
 	}
 
 };
