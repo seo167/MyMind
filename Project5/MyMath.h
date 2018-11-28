@@ -116,12 +116,20 @@ struct Vector4D {
 	}
 
 	inline Vector4D Cross(const Vector4D& vt4D) {
-		int _x = this->y*vt4D.z - this->z*vt4D.y;
-		int _y = this->z*vt4D.x - this->x*vt4D.z;
-		int _z = this->x*vt4D.y - this->y*vt4D.x;
+		float _x = this->y*vt4D.z - this->z*vt4D.y;
+		float _y = this->z*vt4D.x - this->x*vt4D.z;
+		float _z = this->x*vt4D.y - this->y*vt4D.x;
 		return Vector4D(_x,_y,_z);
 	}
-
+	inline void Normal() {
+		float mrg = sqrtf(x*x+y*y+z*z);
+		if (mrg==0) {
+			return;
+		}
+		x /= mrg;
+		y /= mrg;
+		z /= mrg;
+	}
 };
 
 inline const Vector4D operator *(const float& _num, const Vector4D& vt4D) {

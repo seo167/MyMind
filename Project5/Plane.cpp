@@ -12,7 +12,7 @@ void Plane::Conversion() {
 	for (int i = 0; i < 2; ++i) {
 		TriangleArray[i].transform.LocalToWorld();
 		TriangleArray[i].transform.WorldToCamera();
-		//CullBack(TriangleArray[i]);//进行背面剔除
+		CullBack(TriangleArray[i]);//进行背面剔除
 		TriangleArray[i].transform.CameraToPerspective();
 		TriangleArray[i].transform.PerspectiveToView();
 	}
@@ -25,12 +25,16 @@ void Plane::CullBack(PolyGon3D& Tringle) {
 
 	Vector4D v1, v2, normal,view;
 
-	v1 = p2 - p1;
+	v1 = p2-p1;
 	v2 = p3 - p2;
+	
+	v1.Normal();
+	v2.Normal();
+
 	normal = v2.Cross(v1);
 
 	view = p1 - camera->pos;
-
+	view.Normal();
 	float pd = view.dot(normal);
 	if (pd<=0) {
 		Tringle.CullState = CULLSTATE::CULLBACK;

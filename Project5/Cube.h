@@ -1,6 +1,6 @@
 #pragma once
 //*******************
-//正方形类,8个点会按顺序进行输入
+//正方形类
 //*******************
 #include "Plane.h"
 #include"Camera.h"
@@ -14,8 +14,10 @@ public:
 	void Conversion();//转换
 	void Draw();
 	void RotateY(float Angle);
+	void RotateX(float Angle);
+	void RotateZ(float Angle);
 	inline void ReSetCullState() {
-		for (int i = 0; i < 2;++i) {
+		for (int i = 0; i < 6;++i) {
 			planeArray[i].ReSetState();
 		}
 	}

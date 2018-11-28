@@ -4,7 +4,7 @@
 class Plane
 {
 public:
-	Plane(const int* _array,Camera *_camera){
+	Plane(const int* _array, const int* _array1, Camera *_camera){
 		camera = _camera;
 		int m[3][3] = {
 			{*_array,*(_array+1),*(_array + 2)},
@@ -16,9 +16,9 @@ public:
 		Tringle1.SetPoint(*m,MColor(255,255,255));
 		TriangleArray.push_back(Tringle1);
 		int m1[3][3] = {
-			{*_array,*(_array + 1),*(_array + 2)},
-			{*(_array + 3),*(_array + 4),*(_array + 5)},
-			{*(_array + 9),*(_array + 10),*(_array + 11)}
+			{*_array1,*(_array1 + 1),*(_array1 + 2)},
+			{*(_array1 + 3),*(_array1 + 4),*(_array1 + 5)},
+			{*(_array1 + 6),*(_array1 + 7),*(_array1 + 8)}
 		};
 		PolyGon3D Tringle2(3, "");
 		Tringle2.SetPoint(*m1, MColor(255, 255, 255));
@@ -38,12 +38,21 @@ public:
 		TriangleArray[1].transform.RotateY(angle);
 		Conversion();
 	}
-
+	inline void RotateX(float angle) {
+		TriangleArray[0].transform.RotateX(angle);
+		TriangleArray[1].transform.RotateX(angle);
+		Conversion();
+	}
+	inline void RotateZ(float angle) {
+		TriangleArray[0].transform.RotateZ(angle);
+		TriangleArray[1].transform.RotateZ(angle);
+		Conversion();
+	}
 	void CullBack(PolyGon3D& Tringle);
 	void Conversion();//进行空间转换
 	void ReSetState() {
 		for (int i = 0; i < 2;++i) {
-			TriangleArray[i].CullState = CULLSTATE::CULLBACK;
+			TriangleArray[i].CullState = CULLSTATE::DEFAULT;
 		}
 	}
 	~Plane();
